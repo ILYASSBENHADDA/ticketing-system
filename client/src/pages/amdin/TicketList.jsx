@@ -7,12 +7,23 @@ import { Link } from "react-router-dom"
 function TicketList() {
      const [ticketList, setTicketList] = useState([])
 
+     const [emergency, setEmergency] = useState('')
+     const [type, setType] = useState('')
+
      useEffect(()=> {
           axios.get('http://localhost:4000/api/read-not-assign').then(response => {
                setTicketList(response.data)
                console.log(response)
           })
      }, [])
+
+     const onSearch = (e) => {
+          e.preventDefault()
+          axios.post('http://localhost:4000/api/search', {emergency, type}).then(response => {
+               setTicketList(response.data)
+               console.log(response)
+          })
+     }
 
      return (
           <>
@@ -24,6 +35,25 @@ function TicketList() {
           <div id="page-content-wrapper">
                <div className="container-fluid">
                     <h1>Ticket list</h1>
+
+                    <form onSubmit={onSearch} className="form-inline">
+                         <div className="form-group mr-3">
+                              <select className="custom-select" onChange={(e)=> {setEmergency(e.target.value)}}>
+                                   <option>Emergency...</option>
+                                   <option value='normal'>Normal</option>
+                                   <option value='medium'>Medium</option>
+                                   <option value='urgent'>Urgent</option>
+                              </select>               
+                         </div>
+                         <div className="form-group mr-3">
+                              <select className="custom-select" onChange={(e)=> {setType(e.target.value)}}>
+                                   <option>Type...</option>
+                                   <option value='hardware'>Hardware</option>
+                                   <option value='software'>Software</option>
+                              </select>
+                         </div>
+                         <button className="btn btn-primary">search</button>
+                    </form>
 
                     <div className="row">     
                          <table className="table mt-4">

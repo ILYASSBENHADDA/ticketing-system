@@ -1,9 +1,10 @@
 const express = require('express')
-const { assignTicket, readOneTicket, readNotAssigned, readAssigned, readClose, readRefused, createAdmin } = require('../controllers/admin.controller')
+const { assignTicket, readOneTicket, readNotAssigned, readAssigned, readClose, readRefused, createAdmin, Search } = require('../controllers/admin.controller')
 const router = express.Router()
 
 // Assign
 router.get('/read-not-assign', readNotAssigned)
+router.post('/search', Search)
 router.get('/read-assigned', readAssigned)
 router.get('/read-closed', readClose)
 router.get('/read-refused', readRefused)

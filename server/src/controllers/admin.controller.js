@@ -56,3 +56,30 @@ exports.assignTicket = (req, res) => {
      })
 
 }
+
+exports.Search = (req, res) => {
+     const { type, emergency } = req.body
+     console.log(emergency)
+     
+     if (type && !emergency) {
+          Ticket.find({type: type}).then(data => {
+               return res.json(data)
+          })
+     }
+
+     if (!type && emergency) {
+          Ticket.find({emergency: emergency}).then(data => {
+               return res.json(data)
+          })
+     }
+     
+     if (type && emergency) {
+          Ticket.find({type: type, emergency: emergency}).then(data => {
+               return res.json(data)
+          })
+     }
+     
+     
+
+
+}
